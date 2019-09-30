@@ -1,7 +1,6 @@
 #include <regdef.h>
 
 .data
-rotation_rules: .space 32 #reserves a block of 32 bytes
 rotation_rules: .word OW, OE, OE, OW, ON, OS, OS, ON #initializes the matrix
 
 .text
