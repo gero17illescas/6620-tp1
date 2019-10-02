@@ -3,7 +3,9 @@
 #include <ant_engine.h>
 
 .data
-ime: .asciiz "TP1 2Q2019: Implement me!"
+rotation_rules: .space 32 #reserves a block of 32 bytes
+rotation_rules: .word OW, OE, OE, OW, ON, OS, OS, ON #initializes the matrix
+
 
 .text
 .align 2
@@ -17,42 +19,45 @@ new_orientation:
 	.cpload t9
 	.set reorder 
     
-    addiu   $sp,$sp,-4
-    sw      $fp,4($sp)
-    move    $fp,$sp
-    sw      $4,8($fp)
+    subu sp, sp, 16
+	.cprestore 0
+	sw fp, 4(sp)
+	move fp, sp
 
-    lw      $4,4($fp)
-    li      $0,0                        # 0x0   
-    li      $1,1                        # 0x1
-    li      $2,2                        # 0x2
-    li      $3,3                        # 0x3
+    li      t0,ON                       # 0x0   
+    li      t1,OS                       # 0x1
+    li      t2,OE                       # 0x2
+    li      t3,OW                        # 0x3
 
-    beq     $0,$4,$north
-    beq     $1,$4,$south
-    beq     $2,$4,$east
-    beq     $3,$4,$west
+    move t4, a0         #get the first argument
+    move t5, a1         #get the second argument
 
-    move 	$a0, $t1		# pass RULE as parameter
 
-$north:
-    move 	$a1, 3		# $a0 = $t1
-    move 	$a2, 2		# $a0 = $t1 
+    move 	a0, t1		# pass RULE as parameter
+
+    beq     t0,t4,north
+    beq     t1,t4,south
+    beq     t2,t4,east
+    beq     t3,t4,west
+
+north:
+    move 	a1, t3		# a0 = t3 west
+    move 	a2, t2		# a0 = t3 east
     j new_orientation_return
 
-$south:
-    move 	$a1, 2		# $a0 = $t1
-    move 	$a2, 3		# $a0 = $t1
+south:
+    move 	a1, t2		# a0 = t2 east
+    move 	a2, t3		# a0 = t3 west
     j new_orientation_return
 
-$east:
-    move 	$a1, 0		# $a0 = $t1
-    move 	$a2, 1		# $a0 = $t1
+east:
+    move 	a1, t0		# a0 = t0 north
+    move 	a2, t1		# a0 = t1 south
     j new_orientation_return
 
-$west:
-    move 	$a1, 1		# $a0 = $t1
-    move 	$a2, 0		# $a0 = $t1
+west:
+    move 	a1, t1		# a0 = t1 south
+    move 	a2, t0		# a0 = t0 north
     j new_orientation_return
 
 new_orientation_return:
@@ -68,6 +73,63 @@ new_orientation_return:
 .globl move_forward
 .ent move_forward
 move_forward:
-    la a0, ime
-    jal doPanic
+	.frame fp, 16, ra
+	.set noreorder
+	.cpload t9
+	.set reorder 
+    
+    addiu   $sp,$sp,-16
+    .cprestore 0
+    sw      $fp,4($sp)
+    move    $fp,$sp
+
+    move t1, a0         #get the first argument *ant
+    move t2, a1         #get the second argument widht
+    move t3, a2         #get the third argument height
+
+    lw      t7,8(a0)    #load a0 + 8 bytes = orientation_0
+
+    beq     t7,ON ,north
+    beq     t7,OS ,south
+    beq     t7,OE ,east
+    beq     t7,OW ,west
+
+north:
+    lw      t4,4(a0)    #t4 = ant->y
+    subi    t5,t4,1     #t5 = ant->y -1
+    div		t5, t3		# t5 / t3
+    mfhi	t6			# t6 = t5 mod t3 
+    sw		t6, 4(a0)	# ant->y = (ant->y - 1) % heigh
+    ja new_foward_return
+
+south:
+    lw      t4,4(a0)    #t4 = ant->y
+    addi    t5,t4,1     #t5 = ant->y +1
+    div		t5, t3		# t5 / t3
+    mfhi	t6			# t6 = t5 mod t3 
+    sw		t6, 4(a0)	# ant->y = (ant->y - 1) % heigh
+    ja new_foward_return
+
+east:
+    lw      t4,0(a0)    #t4 = ant->x
+    addi    t5,t4,1     #t5 = ant->x -1
+    div		t5, t2		# t5 / t2
+    mfhi	t6			# t6 = t5 mod t2
+    sw		t6, 0(a0)	# ant->x = (ant->x - 1) % weight
+    ja new_foward_return
+
+west:
+    lw      t4,0(a0)       #t4 = ant->x
+    subi    t5,t4,1     #t5 = ant->x -1
+    div		t5, t2		# t5 / t2
+    mfhi	t6			# t6 = t5 mod t2
+    sw		t6, 0(a0)	# ant->x = (ant->x - 1) % weight
+    ja new_foward_return
+
+new_foward_return:
+    move 	v0, a0		# v0 = a0
+	lw fp, 4(sp)
+	addu sp, sp, 16
+	j ra
+    
 .end move_forward
