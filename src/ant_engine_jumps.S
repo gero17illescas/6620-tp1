@@ -36,27 +36,27 @@ new_orientation:
     beq     t3,t4,west_orientation
 
 north_orientation:
-    move 	a1, t3		# a0 = t3 west
-    move 	a2, t2		# a0 = t3 east
+    move 	a1, t3		# a1 = t3 west
+    move 	a2, t2		# a2 = t3 east
     j new_orientation_return
 
 south_orientation:
-    move 	a1, t2		# a0 = t2 east
-    move 	a2, t3		# a0 = t3 west
+    move 	a1, t2		# a1 = t2 east
+    move 	a2, t3		# a2 = t3 west
     j new_orientation_return
 
 east_orientation:
-    move 	a1, t0		# a0 = t0 north
-    move 	a2, t1		# a0 = t1 south
+    move 	a1, t0		# a1 = t0 north
+    move 	a2, t1		# a2 = t1 south
     j new_orientation_return
 
 west_orientation:
-    move 	a1, t1		# a0 = t1 south
-    move 	a2, t0		# a0 = t0 north
+    move 	a1, t1		# a1 = t1 south
+    move 	a2, t0		# a2 = t0 north
     j new_orientation_return
 
 new_orientation_return:
-    beq  a0, 1, go_right
+    beq  t5, 1, go_right
     move v0, a1
     j exit
 go_right:
