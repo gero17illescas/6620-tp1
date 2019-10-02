@@ -1,6 +1,5 @@
 #include <regdef.h>
 #include "ant_constants.h"
-#include "ant_engine.h"
 
 .data
 rotation_rules: .word OW, OE, OE, OW, ON, OS, OS, ON #initializes the matrix
@@ -26,13 +25,10 @@ new_orientation:
     li      t0,ON                       # 0x0   
     li      t1,OS                       # 0x1
     li      t2,OE                       # 0x2
-    li      t3,OW                        # 0x3
+    li      t3,OW                       # 0x3
 
     move t4, a0         #get the first argument
     move t5, a1         #get the second argument
-
-
-    move 	a0, t1		# pass RULE as parameter
 
     beq     t0,t4,north_orientation
     beq     t1,t4,south_orientation
@@ -62,10 +58,10 @@ west_orientation:
 new_orientation_return:
     beq  a0, 1, go_right
     move v0, a1
-    ba exit
+    j exit
 go_right:
     move v0, a2
-    ba exit
+    j exit
 exit:
 	lw fp, 4(sp)
 	addu sp, sp, 16
