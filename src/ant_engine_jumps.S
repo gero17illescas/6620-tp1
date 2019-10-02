@@ -1,9 +1,8 @@
 #include <regdef.h>
-#include <ant_constant.h>
-#include <ant_engine.h>
+#include "ant_constants.h"
+#include "ant_engine.h"
 
 .data
-rotation_rules: .space 32 #reserves a block of 32 bytes
 rotation_rules: .word OW, OE, OE, OW, ON, OS, OS, ON #initializes the matrix
 
 
@@ -78,10 +77,10 @@ move_forward:
 	.cpload t9
 	.set reorder 
     
-    addiu   $sp,$sp,-16
+    addiu   sp, sp,-16
     .cprestore 0
-    sw      $fp,4($sp)
-    move    $fp,$sp
+    sw       fp, 4(sp)
+    move    fp, sp
 
     move t1, a0         #get the first argument *ant
     move t2, a1         #get the second argument widht
@@ -96,11 +95,11 @@ move_forward:
 
 north:
     lw      t4,4(a0)    #t4 = ant->y
-    subi    t5,t4,1     #t5 = ant->y -1
+    subu    t5,t4,1     #t5 = ant->y -1
     div		t5, t3		# t5 / t3
     mfhi	t6			# t6 = t5 mod t3 
     sw		t6, 4(a0)	# ant->y = (ant->y - 1) % heigh
-    ja new_foward_return
+    j new_foward_return
 
 south:
     lw      t4,4(a0)    #t4 = ant->y
@@ -108,7 +107,7 @@ south:
     div		t5, t3		# t5 / t3
     mfhi	t6			# t6 = t5 mod t3 
     sw		t6, 4(a0)	# ant->y = (ant->y - 1) % heigh
-    ja new_foward_return
+    j new_foward_return
 
 east:
     lw      t4,0(a0)    #t4 = ant->x
@@ -116,15 +115,15 @@ east:
     div		t5, t2		# t5 / t2
     mfhi	t6			# t6 = t5 mod t2
     sw		t6, 0(a0)	# ant->x = (ant->x - 1) % weight
-    ja new_foward_return
+    j new_foward_return
 
 west:
     lw      t4,0(a0)       #t4 = ant->x
-    subi    t5,t4,1     #t5 = ant->x -1
+    subu    t5,t4,1     #t5 = ant->x -1
     div		t5, t2		# t5 / t2
     mfhi	t6			# t6 = t5 mod t2
     sw		t6, 0(a0)	# ant->x = (ant->x - 1) % weight
-    ja new_foward_return
+    j new_foward_return
 
 new_foward_return:
     move 	v0, a0		# v0 = a0
