@@ -98,32 +98,36 @@ move_forward:
 north_foward:
     lw      t4,4(a0)    #t4 = ant->y
     subu    t5,t4,1     #t5 = ant->y -1
-    div		t5, t3		# t5 / t3
-    mfhi	t6			# t6 = t5 mod t3 
+    div		t5, t3			# t5 / t3
+    mflo	t0					# t0 = floor(t5 / t3) 
+    mfhi	t6					# t6 = t5 mod t3 
     sw		t6, 4(a0)	# ant->y = (ant->y - 1) % heigh
     j new_foward_return
 
 south_foward:
     lw      t4,4(a0)    #t4 = ant->y
     addi    t5,t4,1     #t5 = ant->y +1
-    div		t5, t3		# t5 / t3
-    mfhi	t6			# t6 = t5 mod t3 
+    div		t5, t3			# t5 / t3
+    mflo	t0					# t0 = floor(t5 / t3) 
+    mfhi	t6					# t6 = t5 mod t3 
     sw		t6, 4(a0)	# ant->y = (ant->y - 1) % heigh
     j new_foward_return
 
 east_foward:
     lw      t4,0(a0)    #t4 = ant->x
     addi    t5,t4,1     #t5 = ant->x -1
-    div		t5, t2		# t5 / t2
-    mfhi	t6			# t6 = t5 mod t2
+    div		t5, t2			# t5 / t2
+    mflo	t0					# t0 = floor(t5 / t2) 
+    mfhi	t6					# t6 = t5 mod t2 
     sw		t6, 0(a0)	# ant->x = (ant->x - 1) % weight
     j new_foward_return
 
 west_foward:
     lw      t4,0(a0)       #t4 = ant->x
     subu    t5,t4,1     #t5 = ant->x -1
-    div		t5, t2		# t5 / t2
-    mfhi	t6			# t6 = t5 mod t2
+    div		t5, t2			# t5 / t2
+    mflo	t0					# t0 = floor(t5 / t2) 
+    mfhi	t6					# t6 = t5 mod t2 
     sw		t6, 0(a0)	# ant->x = (ant->x - 1) % weight
     j new_foward_return
 
