@@ -60,7 +60,13 @@ west_orientation:
     j new_orientation_return
 
 new_orientation_return:
-    jal		decide				# jump to decide
+    beq  a0, 1, go_right
+    move v0, a1
+    ba exit
+go_right:
+    move v0, a2
+    ba exit
+exit:
 	lw fp, 4(sp)
 	addu sp, sp, 16
 	j ra
