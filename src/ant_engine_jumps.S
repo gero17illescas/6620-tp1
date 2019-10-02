@@ -34,27 +34,27 @@ new_orientation:
 
     move 	a0, t1		# pass RULE as parameter
 
-    beq     t0,t4,north
-    beq     t1,t4,south
-    beq     t2,t4,east
-    beq     t3,t4,west
+    beq     t0,t4,north_orientation
+    beq     t1,t4,south_orientation
+    beq     t2,t4,east_orientation
+    beq     t3,t4,west_orientation
 
-north:
+north_orientation:
     move 	a1, t3		# a0 = t3 west
     move 	a2, t2		# a0 = t3 east
     j new_orientation_return
 
-south:
+south_orientation:
     move 	a1, t2		# a0 = t2 east
     move 	a2, t3		# a0 = t3 west
     j new_orientation_return
 
-east:
+east_orientation:
     move 	a1, t0		# a0 = t0 north
     move 	a2, t1		# a0 = t1 south
     j new_orientation_return
 
-west:
+west_orientation:
     move 	a1, t1		# a0 = t1 south
     move 	a2, t0		# a0 = t0 north
     j new_orientation_return
@@ -88,12 +88,12 @@ move_forward:
 
     lw      t7,8(a0)    #load a0 + 8 bytes = orientation_0
 
-    beq     t7,ON ,north
-    beq     t7,OS ,south
-    beq     t7,OE ,east
-    beq     t7,OW ,west
+    beq     t7,ON ,north_foward
+    beq     t7,OS ,south_foward
+    beq     t7,OE ,east_foward
+    beq     t7,OW ,west_foward
 
-north:
+north_foward:
     lw      t4,4(a0)    #t4 = ant->y
     subu    t5,t4,1     #t5 = ant->y -1
     div		t5, t3		# t5 / t3
@@ -101,7 +101,7 @@ north:
     sw		t6, 4(a0)	# ant->y = (ant->y - 1) % heigh
     j new_foward_return
 
-south:
+south_foward:
     lw      t4,4(a0)    #t4 = ant->y
     addi    t5,t4,1     #t5 = ant->y +1
     div		t5, t3		# t5 / t3
@@ -109,7 +109,7 @@ south:
     sw		t6, 4(a0)	# ant->y = (ant->y - 1) % heigh
     j new_foward_return
 
-east:
+east_foward:
     lw      t4,0(a0)    #t4 = ant->x
     addi    t5,t4,1     #t5 = ant->x -1
     div		t5, t2		# t5 / t2
@@ -117,7 +117,7 @@ east:
     sw		t6, 0(a0)	# ant->x = (ant->x - 1) % weight
     j new_foward_return
 
-west:
+west_foward:
     lw      t4,0(a0)       #t4 = ant->x
     subu    t5,t4,1     #t5 = ant->x -1
     div		t5, t2		# t5 / t2
