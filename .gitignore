@@ -1,1 +1,4 @@
 .vscode/settings.json
+vmlinux-4.9.0-4-5kc-malta.mips.stretch
+debian-stretch-mips.qcow2
+initrd.img-4.9.0-4-5kc-malta.mips.stretch

@@ -97,17 +97,22 @@ move_forward:
 
 north_foward:
     lw      t4,4(a0)    #t4 = ant->y
-    subu    t5,t4,1     #t5 = ant->y -1
-    div		t5, t3		# t5 / t3
+    addi    t5,t4,-1     #t5 = ant->y -1
+    beq		t4, 0, reduce_north	# if $t0 == $t1 then target
+continue_north:
+    divu	t5, t3		# t5 / t3
     mflo	t0			# t0 = floor(t5 / t3) 
     mfhi	t6			# t6 = t5 mod t3 
     sw		t6, 4(a0)	# ant->y = (ant->y - 1) % heigh
     j new_foward_return
-
+reduce_north:
+    addiu   t5,t5,-1 
+    j	    continue_north	# jump to continue_west and save position to $ra
+     
 south_foward:
     lw      t4,4(a0)    #t4 = ant->y
     addi    t5,t4,1     #t5 = ant->y +1
-    div		t5, t3		# t5 / t3
+    divu	t5, t3		    # t5 / t3
     mflo	t0			# t0 = floor(t5 / t3) 
     mfhi	t6			# t6 = t5 mod t3 
     sw		t6, 4(a0)	# ant->y = (ant->y - 1) % heigh
@@ -116,21 +121,26 @@ south_foward:
 east_foward:
     lw      t4,0(a0)    #t4 = ant->x
     addi    t5,t4,1     #t5 = ant->x +1
-    div		t5, t2			# t5 / t2
-    mflo	t0					# t0 = floor(t5 / t2) 
-    mfhi	t6					# t6 = t5 mod t2 
-    sw		t6, 0(a0)	# ant->x = (ant->x - 1) % weight
+    divu	t5, t2		# t5 / t2
+    mflo	t0			# t0 = floor(t5 / t2) 
+    mfhi	t6			# t6 = t5 mod t2 
+    sw		t6, 0(a0)	# ant->x = (ant->x + 1) % weight
     j new_foward_return
 
 west_foward:
     lw      t4,0(a0)       #t4 = ant->x
-    subu    t5,t4,1     #t5 = ant->x -1
-    div		t5, t2			# t5 / t2
+    addi   t5,t4,-1     #t5 = ant->x -1
+    beq		t4, 0 , reduce_west	# if $t0 == $t1 then target
+continue_west:
+    divu	t5, t2			# t5 / t2
     mflo	t0					# t0 = floor(t5 / t2) 
     mfhi	t6					# t6 = t5 mod t2 
     sw		t6, 0(a0)	# ant->x = (ant->x - 1) % weight
     j new_foward_return
-
+reduce_west:
+    addiu   t5,t5,-1 
+    j	    continue_west				# jump to continue_west and save position to $ra
+     
 new_foward_return:
     move 	v0, a0		# v0 = a0
 	lw fp, 4(sp)

@@ -64,12 +64,12 @@ int main() {
     a->y = 2;
     a->o = 1;
     ant_result = move_forward(a, 3, 3);
-    printf("test_13: the result %u  should be: 1\n", ant_result->y);
+    printf("test_13: the result %u  should be: 0\n", ant_result->y);
 
     a->x = 2;
     a->y = 2;
     a->o = 2;
-    ant_t* ant_result = move_forward(a, 3, 3);
+    ant_result = move_forward(a, 3, 3);
     printf("test_14: the result %u  should be: 0 \n", ant_result->x);
 
     a->x = 0;
