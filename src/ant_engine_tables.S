@@ -46,6 +46,65 @@ new_orientation_return:
 .globl move_forward
 .ent move_forward
 move_forward:
-    la a0, ime
-    jal doPanic
+	.frame fp, 16, ra
+	
+	.set noreorder
+	.cpload t9
+	.set reorder
+
+    	subu sp, sp, 16
+	.cprestore 0
+	sw		fp, 4(sp)		 
+	move 	fp, sp
+					# load the arguments
+    	move t0, a0		# ant
+    	move t1, a1		# width
+    	move t2, a2		# height
+
+	lw 	t3, 8(t0)     		# load ant->o
+	beq	t3, 0, step_north	# if t3 == 0 then step_north
+	beq	t3, 1, step_south	# if t3 == 1 then step_south
+	beq	t3, 2, step_east	# if t3 == 2 then step_east
+
+	addi	t6, t1, 0		# t6 = t1 + 0 // bound = width							
+	lw	t4, 0(t0)		# load ant->x in t4
+	sub	t5, t4, 1		# t5 = t4 - 1  // x - 1 
+	div	t5, t6			# t5 / t6   //  (x - 1)/bound
+	mfhi	t4			# t5 = t5 mod t6  // (x-1) mod bound
+	sw	t4, 0(t0)	        # ant->x = t4
+	j	done			# jump to done	
+
+step_north:
+	addi	t6, t2, 0		# t6 = t2 + 0 // bound = height		
+	lw	t4, 4(t0)		# load ant->y in t4
+	sub	t5, t4, 1		# t5 = t4 - 1  // y - 1 
+	div	t5, t6			# t5 / t6   //  (y - 1)/bound
+	mfhi	t4			# t5 = t5 mod t6  // (y-1) mod bound
+	sw	t4, 4(t0)	        # ant->y = t4
+	j	done			# jump to done
+
+step_south:
+	addi	t6, t2, 0		# t6 = t2 + 0 // bound = height			
+	lw	t4, 4(t0)		# load ant->y in t4
+	add	t5, t4, 1		# t5 = t4 + 1  // y + 1 
+	div	t5, t6			# t5 / t6   //  (y + 1)/bound
+	mfhi	t4			# t5 = t5 mod t6  // (y+1) mod bound
+	sw	t4, 4(t0)		# ant->y = t4
+	j	done			# jump to done
+
+step_east:
+	addi	t6, t1, 0			# t6 = t1 + 0 // bound = width			
+	lw	t4, 0(t0)			# load ant->x in t4
+	add	t5, t4, 1			# t5 = t4 + 1  // x + 1 
+	div	t5, t6				# t5 / t6   //  (x + 1)/bound
+	mfhi	t4					# t5 = t5 mod t6  // (x+1) mod bound
+	sw	t4, 0(t0)		    # ant->x = t4
+	j	done				# jump to done	
+	
+done:
+   	move 	v0, a0		        # v0 = a0
+	lw 	fp, 4(sp)
+	addu 	sp, sp, 16
+	j ra
+	
 .end move_forward
