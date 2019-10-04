@@ -1,0 +1,11 @@
+
+
+qemu-system-mips64 -M malta -cpu MIPS64R2-generic -m 2G -append 'root=/dev/vda console=ttyS0 mem=2048m net.ifnames=0 nokaslr' -netdev user,id=user.0 -device virtio-net,netdev=user.0 -net user,hostfwd=tcp::5555-:22 -net nic -device usb-kbd -device usb-tablet -kernel vmlinux-* -initrd initrd.img-* -drive file=$(echo debian-*.qcow2),if=virtio -nographic
+scp -P 5555 *  root@localhost:/tmp
+
+./tp1_tables_pf -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 1)) > /dev/null && gprof -b tp1_tables_pf gmon.out > prueba_tp1_tables_pf_4.txt
+./tp1_tables_pf -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 10)) > /dev/null && gprof -b tp1_tables_pf gmon.out > prueba_tp1_tables_pf_5.txt
+./tp1_tables_pf -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 100)) > /dev/null && gprof -b tp1_tables_pf gmon.out > prueba_tp1_tables_pf_6.txt
+./tp1_tables_pf -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 1000)) > /dev/null && gprof -b tp1_tables_pf gmon.out > prueba_tp1_tables_pf_7.txt
+./tp1_tables_pf -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 10000)) > /dev/null && gprof -b tp1_tables_pf gmon.out > prueba_tp1_tables_pf_8.txt
+./tp1_tables_pf -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 100000)) > /dev/null && gprof -b tp1_tables_pf gmon.out > prueba_tp1_tables_pf_9.txt
