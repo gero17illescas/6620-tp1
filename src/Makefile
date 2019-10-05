@@ -10,26 +10,29 @@ col_major:tp1_if_col_major tp1_tables_col_major
 
 global_dims: tp1_tables_global_dims
 
-tp1_if: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_jumps.c artist_ant.c 
-	gcc -g $^ -o $@
+tp1_if_pf_0: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_jumps.c artist_ant.c 
+	gcc -no-pie -pg -g -O0 -DSANITY_CHECK $^ -o $@
 
-tp1_tables: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_tables.c artist_ant.c 
-	gcc -g -DUSE_TABLES -DUSE_GLOBAL_GRID_DIMS $^ -o $@
+tp1_tables_pf_0: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_tables.c artist_ant.c
+	gcc -no-pie -pg -g -O0 -DUSE_TABLES $^ -o $@
 
-tp1_if_pf: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_jumps.c artist_ant.c 
-	gcc -no-pie -pg -g -DSANITY_CHECK $^ -o $@
+tp1_if_pf_1: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_jumps.c artist_ant.c 
+	gcc -no-pie -pg -g -O1 -DSANITY_CHECK $^ -o $@
 
-tp1_tables_pf: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_tables.c artist_ant.c
-	gcc -no-pie -pg -g -DUSE_TABLES $^ -o $@
+tp1_tables_pf_1: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_tables.c artist_ant.c
+	gcc -no-pie -pg -g -O1 -DUSE_TABLES $^ -o $@
 
-tp1_if_col_major: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_jumps.c artist_ant.c 
-	gcc -no-pie -pg -g -DUSE_COL_MAJOR $^ -o $@
+tp1_if_pf_2: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_jumps.c artist_ant.c 
+	gcc -no-pie -pg -g -O2 -DSANITY_CHECK $^ -o $@
 
-tp1_tables_col_major: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_tables.c artist_ant.c 
-	gcc -no-pie -pg -g -DUSE_TABLES -DUSE_COL_MAJOR $^ -o $@
+tp1_tables_pf_2: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_tables.c artist_ant.c
+	gcc -no-pie -pg -g -O2 -DUSE_TABLES $^ -o $@
 
-tp1_tables_global_dims: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_tables.c artist_ant.c 
-	gcc -g -DUSE_TABLES -DUSE_GLOBAL_GRID_DIMS $^ -o $@
+tp1_if_pf_3: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_jumps.c artist_ant.c 
+	gcc -no-pie -pg -g -O3 -DSANITY_CHECK $^ -o $@
+
+tp1_tables_pf_3: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_tables.c artist_ant.c
+	gcc -no-pie -pg -g -O3 -DUSE_TABLES $^ -o $@
 
 tp1_tables_asm: square_grid.c builders.c palette.c rules.c square_grid.c ant_engine.c ant_engine_tables.S asm-helpers.c artist_ant.c 
 	gcc -DUSE_GLOBAL_GRID_DIMS -g $(CFLAGS) $^ -o $@
