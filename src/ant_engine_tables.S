@@ -11,12 +11,12 @@ rotation_rules: .word OW, OE, OE, OW, ON, OS, OS, ON #initializes the matrix
 .ent new_orientation
 
 new_orientation:
-	.frame fp, 16, ra
+	.frame fp, 8, ra
 	.set noreorder
 	.cpload t9
 	.set reorder 
 
-	subu sp, sp, 16
+	subu sp, sp, 8
 	.cprestore 0
 	sw fp, 4(sp)
 	move fp, sp
@@ -35,7 +35,7 @@ new_orientation:
 
 new_orientation_return:
 	lw fp, 4(sp)
-	addu sp, sp, 16
+	addu sp, sp, 8
 	j ra
 .end new_orientation
 
