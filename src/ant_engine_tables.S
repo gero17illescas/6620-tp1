@@ -2,7 +2,6 @@
 #include "ant_constants.h"
 
 .data
-rotation_rules: .space 32 #reserves a block of 32 bytes
 rotation_rules: .word OW, OE, OE, OW, ON, OS, OS, ON #initializes the matrix
 
 .text
@@ -46,13 +45,12 @@ new_orientation_return:
 .globl move_forward
 .ent move_forward
 move_forward:
-	.frame fp, 16, ra
-	
+	.frame fp, 8, ra
 	.set noreorder
 	.cpload t9
 	.set reorder
 
-    	subu sp, sp, 16
+    subu sp, sp, 8
 	.cprestore 0
 	sw		fp, 4(sp)		 
 	move 	fp, sp
@@ -103,8 +101,9 @@ step_east:
 	
 done:
    	move 	v0, a0		        # v0 = a0
+   	lw	gp, 0(sp)
 	lw 	fp, 4(sp)
-	addu 	sp, sp, 16
+	addu 	sp, sp, 8
 	j ra
 	
 .end move_forward

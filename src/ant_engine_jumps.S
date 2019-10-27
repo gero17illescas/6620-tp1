@@ -12,12 +12,12 @@ rotation_rules: .word OW, OE, OE, OW, ON, OS, OS, ON    #initializes the matrix
 
 new_orientation:
 
-	.frame fp, 16, ra
+	.frame fp, 8, ra
 	.set noreorder
 	.cpload t9
 	.set reorder 
     
-    subu sp, sp, 16
+    subu sp, sp, 8
 	.cprestore 0
 	sw fp, 4(sp)
 	move fp, sp
@@ -64,8 +64,9 @@ new_orientation_return:
         j exit
         
 exit:
+    lw gp, 0(sp)
 	lw fp, 4(sp)
-	addu sp, sp, 16
+	addu sp, sp, 8
 	j ra
     
 .end new_orientation
@@ -75,12 +76,12 @@ exit:
 .globl move_forward
 .ent move_forward
 move_forward:
-	.frame fp, 16, ra
+	.frame fp, 8, ra
 	.set noreorder
 	.cpload t9
 	.set reorder 
     
-    addiu   sp, sp,-16
+    addiu   sp, sp,-8
     .cprestore 0
     sw       fp, 4(sp)
     move    fp, sp
@@ -144,8 +145,9 @@ west_foward:
         
 new_foward_return:
     move 	v0, a0		    # v0 = a0
+    lw gp, 0(sp)
 	lw fp, 4(sp)
-	addu sp, sp, 16
+	addu sp, sp, 8
 	j ra
     
 .end move_forward
