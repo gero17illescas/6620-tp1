@@ -101,7 +101,6 @@ step_east:
 	
 done:
    	move 	v0, a0		        # v0 = a0
-   	lw	gp, 0(sp)
 	lw 	fp, 4(sp)
 	addu 	sp, sp, 8
 	j ra
