@@ -34,6 +34,7 @@ new_orientation:
     beq     OS,t4,south_orientation
     beq     OE,t4,east_orientation
     beq     OW,t4,west_orientation
+    j exit
 
 north_orientation:
     move 	a1, t3		    # a1 = t3 west
@@ -96,7 +97,7 @@ move_forward:
     beq     t7,OS ,south_foward
     beq     t7,OE ,east_foward
     beq     t7,OW ,west_foward
-
+    j new_foward_return
 north_foward:
     lw      t4,4(a0)        #t4 = ant->y
     addi    t5,t4,-1        #t5 = ant->y -1

@@ -50,7 +50,7 @@ move_forward:
 	.cpload t9
 	.set reorder
 
-    subu sp, sp, 8
+    subu sp, sp,
 	.cprestore 0
 	sw		fp, 4(sp)		 
 	move 	fp, sp
@@ -63,7 +63,10 @@ move_forward:
 	beq	t3, 0, step_north	# if t3 == 0 then step_north
 	beq	t3, 1, step_south	# if t3 == 1 then step_south
 	beq	t3, 2, step_east	# if t3 == 2 then step_east
-
+	beq	t3, 2, step_west	# if t3 == 3 then step_east
+	j	done			# jump to done
+	
+step_west:
 	addi	t6, t1, 0		# t6 = t1 + 0 // bound = width							
 	lw	t4, 0(t0)		# load ant->x in t4
 	sub	t5, t4, 1		# t5 = t4 - 1  // x - 1 
