@@ -65,7 +65,6 @@ new_orientation_return:
         j exit
         
 exit:
-    lw gp, 0(sp)
 	lw fp, 4(sp)
 	addu sp, sp, 8
 	j ra
@@ -146,7 +145,6 @@ west_foward:
         
 new_foward_return:
     move 	v0, a0		    # v0 = a0
-    lw gp, 0(sp)
 	lw fp, 4(sp)
 	addu sp, sp, 8
 	j ra
