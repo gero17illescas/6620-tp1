@@ -19,4 +19,8 @@ void pruebas_new_orientation_tables(void){
     print_test("Prueba 6 obtener elemento fila:2, columna:1", new_orientation(OE, RR) == OS);
     print_test("Prueba 7 obtener elemento fila:3, columna:0", new_orientation(OE, RR) == OS);
     print_test("Prueba 8 obtener elemento fila:3, columna:1", new_orientation(OE, RL) == ON);
+    print_test("Prueba 9 pasar dirección invalida fila: 4, columna: -1", new_orientation(4, -1) == OW);
+    print_test("Prueba 10 pasar dirección invalida fila: 9, columna: -6", new_orientation(9, -6) == OW);
+    print_test("Prueba 11 pasar dirección invalida fila: -1, columna: 2", new_orientation(-1, 2) == OW);
+    print_test("Prueba 12 pasar dirección invalida fila: -6, columna: 23", new_orientation(-6, 23) == OW);
 }

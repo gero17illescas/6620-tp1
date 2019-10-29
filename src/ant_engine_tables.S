@@ -22,14 +22,27 @@ new_orientation:
 
     move t0, a0      #get the first argument
     move t1, a1      #get the second argument
+   	bge t0, 4, doPanic #Checks whether the arguments are valid 
+   	ble t0, -1, doPanic 
+   	bge t1, 2, doPanic 
+   	ble t1, -1, doPanic
+   	b main
+
+#If the arguments are not valid, the default is 0, 0
+
+doPanic:
+	li t0, 0
+	li t1, 0
+
+main:
     li t2, 2         #saves the columns size on t2
     la t3, rotation_rules   #t3 = array address
     li v0, 0
     mul t0, t2, t0
-    add t0, t0, t1
-    sll t0, t0, 2
-    add t0, t3, t0
-    lw v0, 0(t0)
+    add t0, t0, t1	#gets the decimal-position on the array
+    sll t0, t0, 2	#gets the byte-position on the array
+    add t0, t3, t0	#gets the final direction on the array
+    lw v0, 0(t0)	#loads the result
 	j new_orientation_return
 
 new_orientation_return:
