@@ -179,24 +179,24 @@ make tp1_if_pf_3 &&
  time -p ./tp1_if_pf_3 -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 10000)) > /dev/null &&
  time -p ./tp1_if_pf_3 -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 100000)) > /dev/null
 
-real 3.76
-user 3.74
+real 4.27
+user 4.24
 sys 0.01
-real 4.45
-user 4.41
-sys 0.03
-real 8.16
-user 8.13
+real 4.84
+user 4.80
 sys 0.02
-real 41.73
-user 41.64
+real 8.28
+user 8.24
 sys 0.02
-real 175.46
-user 175.37
+real 25.52
+user 25.44
 sys 0.01
-real 2412.24
-user 2411.26
+real 321.56
+user 320.94
 sys 0.02
+real 1713.81
+user 1712.57
+sys 0.06
 
 make tp1_tables_pf_3 &&
 time -p ./tp1_tables_pf_3 -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 1)) > /dev/null &&
@@ -206,24 +206,24 @@ time -p ./tp1_tables_pf_3 -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 1000)) 
 time -p ./tp1_tables_pf_3 -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 10000)) > /dev/null &&
 time -p ./tp1_tables_pf_3 -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 100000)) > /dev/null
 
-real 5.45
-user 5.42
-sys 0.02
-real 5.36
-user 5.34
-sys 0.00
-real 10.31
-user 10.27
-sys 0.03
-real 48.56
-user 48.53
-sys 0.00
-real 280.41
-user 280.26
+real 3.61
+user 3.60
 sys 0.01
-real 3817.53
-user 3804.68
-sys 0.06
+real 4.51
+user 4.48
+sys 0.02
+real 7.21
+user 7.19
+sys 0.01
+real 28.92
+user 28.89
+sys 0.00
+real 206.23
+user 206.13
+sys 0.00
+real 3463.80
+user 3462.38
+sys 0.09
 
 ./tp1_tables_pf -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 1)) > /dev/null && gprof -b tp1_tables_pf gmon.out > prueba_tp1_tables_pf_4.txt
 ./tp1_tables_pf -g 1024x1024 -p RGBW -r LLLL -t $((10 * 1000 * 10)) > /dev/null && gprof -b tp1_tables_pf gmon.out > prueba_tp1_tables_pf_5.txt
